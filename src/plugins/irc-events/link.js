@@ -4,6 +4,7 @@ const cheerio = require("cheerio");
 const request = require("request");
 const URL = require("url").URL;
 const mime = require("mime-types");
+const disposition = require("content-disposition");
 const Helper = require("../../helper");
 const cleanIrcMessage = require("../../../client/js/libs/handlebars/ircmessageparser/cleanIrcMessage");
 const findLinks = require("../../../client/js/libs/handlebars/ircmessageparser/findLinks");
@@ -181,6 +182,13 @@ function parseHtmlMedia($, preview, res, client) {
 function parse(msg, preview, res, client) {
 	let promise;
 
+	if ("content-disposition" in res.headers) {
+		var dispositionResult = disposition.parse(res.headers["content-disposition"]);
+		if ((dispositionResult.type == "inline" || dispositionResult.type == "attachment") && "filename" in dispositionResult.parameters){
+			preview.head = dispositionResult.parameters["filename"];
+		}
+	}
+	
 	switch (res.type) {
 	case "text/html":
 		promise = parseHtml(preview, res, client);
@@ -235,7 +243,10 @@ function parse(msg, preview, res, client) {
 		break;
 
 	default:
-		return removePreview(msg, preview);
+		if (preview.head == "") {
+			return removePreview(msg, preview);
+		}
+		break;
 	}
 
 	if (!promise) {
