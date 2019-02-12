@@ -182,8 +182,8 @@ function parseHtmlMedia($, preview, res, client) {
 function parse(msg, preview, res, client) {
 	let promise;
 
-	if ("content-disposition" in res.headers) {
-		var dispositionResult = disposition.parse(res.headers["content-disposition"]);
+	if (res.caseless.get("content-disposition")) {
+		var dispositionResult = disposition.parse(res.caseless.get("content-disposition"));
 		if ((dispositionResult.type == "inline" || dispositionResult.type == "attachment") && "filename" in dispositionResult.parameters){
 			preview.head = dispositionResult.parameters["filename"];
 		}
