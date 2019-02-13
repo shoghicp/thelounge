@@ -182,8 +182,8 @@ function parseHtmlMedia($, preview, res, client) {
 function parse(msg, preview, res, client) {
 	let promise;
 
-	if (res.caseless.get("content-disposition")) {
-		var dispositionResult = disposition.parse(res.caseless.get("content-disposition"));
+	if ("content-disposition" in res.headers) {
+		var dispositionResult = disposition.parse(res.headers["content-disposition"]);
 		if ((dispositionResult.type == "inline" || dispositionResult.type == "attachment") && "filename" in dispositionResult.parameters){
 			preview.head = dispositionResult.parameters["filename"];
 		}
@@ -392,9 +392,11 @@ function fetch(uri, headers) {
 				if (req.response.headers["content-type"]) {
 					type = req.response.headers["content-type"].split(/ *; */).shift();
 				}
+			
+				let headers = req.response.headers;
 
 				const data = Buffer.concat(buffers, length);
-				resolve({data, type, size});
+				resolve({data, type, headers, size});
 			});
 	});
 
