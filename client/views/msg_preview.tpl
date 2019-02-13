@@ -4,18 +4,51 @@
 		<a class="toggle-thumbnail" href="{{link}}" target="_blank" rel="noopener">
 			<img src="{{thumb}}" decoding="async" alt="">
 		</a>
+		{{#if head}}
+			<div class="toggle-text">
+				<div class="head">
+					<div class="overflowable">
+						<a href="{{link}}" target="_blank" rel="noopener" title="{{head}}">
+							{{head}}
+						</a>
+					</div>
+				</div>
+			</div>
+		{{/if}}
 	{{/equal}}
 	{{#equal type "audio"}}
 		<audio controls preload="metadata">
 			<source src="{{media}}" type="{{mediaType}}">
 			Your browser does not support the audio element.
 		</audio>
+		{{#if head}}
+			<div class="toggle-text">
+				<div class="head">
+					<div class="overflowable">
+						<a href="{{link}}" target="_blank" rel="noopener" title="{{head}}">
+							{{head}}
+						</a>
+					</div>
+				</div>
+			</div>
+		{{/if}}
 	{{/equal}}
 	{{#equal type "video"}}
 		<video preload="metadata" controls>
 			<source src="{{media}}" type="{{mediaType}}">
 			Your browser does not support the video element.
 		</video>
+		{{#if head}}
+			<div class="toggle-text">
+				<div class="head">
+					<div class="overflowable">
+						<a href="{{link}}" target="_blank" rel="noopener" title="{{head}}">
+							{{head}}
+						</a>
+					</div>
+				</div>
+			</div>
+		{{/if}}
 	{{/equal}}
 	{{#equal type "link"}}
 		{{#if thumb}}
