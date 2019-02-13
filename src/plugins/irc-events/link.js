@@ -250,8 +250,11 @@ function parse(msg, preview, res, client) {
 		if (preview.head == "") {
 			return removePreview(msg, preview);
 		}
+		preview.type = "link";
 		break;
 	}
+	
+	preview.type = "link";
 
 	if (!promise) {
 		return handlePreview(client, msg, preview, res);
