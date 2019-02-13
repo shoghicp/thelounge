@@ -182,14 +182,11 @@ function parseHtmlMedia($, preview, res, client) {
 function parse(msg, preview, res, client) {
 	let promise;
 	
-	preview.body = res.headers;
 	if ("content-disposition" in res.headers) {
 		var dispositionResult = disposition.parse(res.headers["content-disposition"]);
 		if ((dispositionResult.type == "inline" || dispositionResult.type == "attachment") && "filename" in dispositionResult.parameters){
 			preview.head = dispositionResult.parameters["filename"];
 		}
-		
-		preview.body = res.headers["content-disposition"] + " ======= " + dispositionResult;
 	}
 	
 	switch (res.type) {
@@ -253,8 +250,6 @@ function parse(msg, preview, res, client) {
 		preview.type = "link";
 		break;
 	}
-	
-	preview.type = "link";
 
 	if (!promise) {
 		return handlePreview(client, msg, preview, res);
